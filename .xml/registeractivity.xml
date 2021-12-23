@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".registerActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:text="Register"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="30sp"
+        />
+
+
+    <EditText
+        android:id="@+id/userNameInput"
+        android:inputType="textWebEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="50dp"
+        android:translationY="30dp"
+        android:hint="Name"
+        />
+    <EditText
+        android:id="@+id/userEmailInput"
+        android:inputType="textWebEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"
+        android:translationY="10dp"
+        android:hint="Email Address.."
+        />
+
+    <EditText
+        android:id="@+id/userPassInput"
+        android:inputType="textVisiblePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"
+        android:translationY="0dp"
+        android:hint="Create Password"
+        />
+
+    <EditText
+        android:id="@+id/validatePass"
+        android:inputType="textVisiblePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"
+
+        android:hint="Enter Password Again"
+        />
+
+    <Button
+        android:id="@+id/registerUserButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginBottom="50dp"
+
+        android:text="Register"
+        android:onClick="save"
+        />
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginBottom="50dp"
+        android:translationY="-30dp"
+        android:text="Login"
+        android:onClick="login"
+        />
+
+    <TextView
+        android:id="@+id/regStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="Status"
+        android:translationY="-80dp"
+        />
+
+</LinearLayout>
