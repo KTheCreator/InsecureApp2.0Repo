@@ -20,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +47,7 @@ public class registerActivity extends AppCompatActivity {
         regStatus = findViewById(R.id.regStatus);
 
     }
+
     public void save(View view){
         name = etName.getText().toString().trim();
         email = etEmail.getText().toString().trim();
@@ -58,7 +61,7 @@ public class registerActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST,URL,new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
-                    Log.d(TAG,"The response is: " + response);
+                    //Log.d(TAG,"The response is: " + response);
                     if(response.equals("success")){
                         Log.d(TAG,"Success");
                         regStatus.setText("Successful Registration");

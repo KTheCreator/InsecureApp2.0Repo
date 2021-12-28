@@ -5,57 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".dataEntryForUser">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
-        android:text="Login"
+        android:text="Enter Data"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="30sp"
+
         />
 
     <EditText
-        android:id="@+id/usernameInput"
+        android:id="@+id/dateEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-
-        android:layout_marginBottom="50dp"
-        android:inputType="textWebEmailAddress"
-        android:singleLine="false"
-        android:hint="User Name..."
-        android:translationY="100dp" />
+        android:hint="Enter Date (i.e. 01/01/2000)"
+        android:translationY="50dp"
+        />
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/weightEntry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="50dp"
-        android:inputType="textVisiblePassword"
-        android:hint="Password..."
-        android:translationY="100dp" />
-
+        android:hint="Enter Weight"
+        android:translationY="60dp"
+        />
+    <EditText
+        android:id="@+id/bodyFatEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Body Fat %"
+        android:translationY="70dp"
+        />
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="100dp"
-        android:text="Login"
-        android:onClick="loginUser"
-        android:translationY="100dp" />
+        android:text="Submit"
+        android:onClick="JSONCreator"
 
-    <Button
-        android:id="@+id/signupButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
-        android:text="Sign Up"
-        android:onClick="register"
-        android:translationY="100dp" />
-
-
+        android:translationY="100dp"
+        />
 </LinearLayout>

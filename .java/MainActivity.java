@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private String email,password;
     private String URL="http://10.0.2.2/login/login.php";
+    private static final String TAG = "loginActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,19 +34,22 @@ public class MainActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.usernameInput);
         etPassword = findViewById(R.id.passwordInput);
     }
-    public void login(View view){
+    public void loginUser(View view){
         email = etEmail.getText().toString().trim();
         password = etPassword.getText().toString().trim();
         if(!email.equals("")&&!password.equals("")){
             StringRequest stringRequest = new StringRequest(Request.Method.POST,URL,new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
-                    if(response.equals("success")){
-                        Intent intent = new Intent( MainActivity.this, successMainMenu.class);
+                    //Log.d(TAG,"Response is: " + response);
+
+                    if(response.trim().equals("success")){
+                        Log.d(TAG,"Switching to main menu");
+                        Intent intent = new Intent( MainActivity.this, dataEntryForUser.class);
                         startActivity(intent);
                         finish();
                     }
-                    else if(response.equals("failure")){
+                    else if(response.trim().equals("failure")){
                         Toast.makeText(MainActivity.this,"Invalid Login Id/Password",Toast.LENGTH_SHORT).show();
                     }
                 }
