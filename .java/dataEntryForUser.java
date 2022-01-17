@@ -2,6 +2,7 @@ package com.example.insecureapp20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.JsonWriter;
 import android.util.Log;
@@ -54,12 +55,12 @@ public class dataEntryForUser extends AppCompatActivity {
 
         try {
             JSONObject obj = new JSONObject();
-            JSONArray jArray = new JSONArray();
+
             obj.put("Date:", date);
             obj.put("Weight:",weight);
             obj.put("BodyFat",BodyFat);
-            jArray.put(obj);
-            message = jArray.toString(2);
+
+            message = obj.toString(2);
             Log.d(TAG,"Message: "+message);
         }catch(JSONException e){
             e.printStackTrace();
@@ -68,7 +69,7 @@ public class dataEntryForUser extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG,"The response is: "+response);
-                if(response.equals("success")){
+                if(response.trim().equals("success")){
                     Log.d(TAG,"Data Inserted");
                 }
                 else{
@@ -85,7 +86,10 @@ public class dataEntryForUser extends AppCompatActivity {
             protected Map<String,String> getParams() throws AuthFailureError{
                 Log.d(TAG,"Message: "+message);
                 Map<String,String> data = new HashMap<>();
+                SharedPreferences userPrefs = getApplicationContext().getSharedPreferences("userPrefs",0);
                 data.put("fitHistory",message);
+                data.put("currUserEmail", userPrefs.getString("currUserEmail",null));
+
                 Log.d(TAG,"The data posted is: " + data);
                 return data;
             }

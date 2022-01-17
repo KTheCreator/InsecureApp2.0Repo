@@ -56,12 +56,16 @@ public class registerActivity extends AppCompatActivity {
         if(!password.equals(reenterPassword)){
             Toast.makeText(this,"Passwords do not match! Try again",Toast.LENGTH_SHORT).show();
         }
+        if(passwordPolicy(password) == false){
+            Toast.makeText(this,"Invalid Password! Must have at least 7 characters and at least 1 number",Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"Insecure password detected: " + password);
+        }
         else if(!name.equals("")&&!email.equals("")&&!password.equals("")){
             Log.d(TAG,"Starting process");
             StringRequest stringRequest = new StringRequest(Request.Method.POST,URL,new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
-                    //Log.d(TAG,"The response is: " + response);
+                    Log.d(TAG,"The response is: " + response);
                     if(response.equals("success")){
                         Log.d(TAG,"Success");
                         regStatus.setText("Successful Registration");
@@ -86,7 +90,7 @@ public class registerActivity extends AppCompatActivity {
                     data.put("name",name);
                     data.put("email",email);
                     data.put("password",password);
-                    Log.d(TAG,"The data posted is: " + data);
+
 
                     return data;
                 }
@@ -101,5 +105,34 @@ public class registerActivity extends AppCompatActivity {
         Intent intent = new Intent (this,MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public boolean passwordPolicy(String inputPassword){
+        if(inputPassword.length() < 7) return false;
+        else{
+            if(!containsNumber(inputPassword)) return false;
+            else{
+                if(!containsLetter(inputPassword)) return false;
+                else return true;
+            }
+        }
+    }
+    public boolean containsNumber(String _input){
+        for(int i = 0; i < _input.length();i++){
+            if(Character.isDigit(_input.charAt(i)))
+                return true;
+            else
+                continue;
+        }
+        return false;
+    }
+    public boolean containsLetter(String _input){
+        for(int i = 0; i < _input.length();i++){
+            if(Character.isLetter(_input.charAt(i)))
+                return true;
+            else
+                continue;
+        }
+        return false;
     }
 }

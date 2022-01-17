@@ -1,8 +1,11 @@
 package com.example.insecureapp20;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,26 +20,53 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private String email,password;
     private String URL="http://10.0.2.2/login/login.php";
+
     private static final String TAG = "loginActivity";
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         email = password = "";
         etEmail = findViewById(R.id.usernameInput);
         etPassword = findViewById(R.id.passwordInput);
+
+
     }
-    public void loginUser(View view){
+    public void loginUser(View view) throws GeneralSecurityException, IOException {
+
+
+
         email = etEmail.getText().toString().trim();
         password = etPassword.getText().toString().trim();
+
+        //SharedPreferences userPrefs = getApplication().getSharedPreferences("userPrefs",0);
+        String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        SharedPreferences userPrefs= EncryptedSharedPreferences.create(
+                "userPrefs_file",
+                masterKeyAlias,
+                getApplicationContext(),
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        );
+        SharedPreferences.Editor editor = userPrefs.edit();
         if(!email.equals("")&&!password.equals("")){
             StringRequest stringRequest = new StringRequest(Request.Method.POST,URL,new Response.Listener<String>(){
                 @Override
@@ -45,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
                     if(response.trim().equals("success")){
                         Log.d(TAG,"Switching to main menu");
-                        Intent intent = new Intent( MainActivity.this, dataEntryForUser.class);
+                        editor.putString("currUserEmail",email);
+                        editor.apply();
+                        Intent intent = new Intent( MainActivity.this, successMainMenu.class);
                         startActivity(intent);
                         finish();
                     }
@@ -57,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error){
                     Toast.makeText(MainActivity.this,error.toString().trim(),Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,error.toString());
                 }
             }){
                 @Override
@@ -68,8 +101,12 @@ public class MainActivity extends AppCompatActivity {
                     return data;
                 }
             };
+
+
+
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             requestQueue.add(stringRequest);
+
         }else{ Toast.makeText(this,"Fields cannot be empty",Toast.LENGTH_SHORT).show();}
     }
 
